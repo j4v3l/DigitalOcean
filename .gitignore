@@ -1,0 +1,15 @@
+# Ignore system files
+.DS_Store
+
+# Ignore Terraform files that should not be committed
+**/.terraform/*
+*.tfstate
+*.tfstate.backup
+*.tflock
+*.tfvars
+
+# Ignore Ansible sensitive data
+**/group_vars/*
+
+# Ignore SSH keys
+**/.ssh/*
