@@ -1,0 +1,55 @@
+---
+
+- name: Ensure lsof is installed
+  apt:
+    name: lsof
+    state: present
+  become: true 
+
+- name: Wait for release of apt lock
+  command: lsof /var/lib/dpkg/lock-frontend
+  register: lsof_output
+  failed_when: lsof_output.rc == 0
+  until: lsof_output.failed
+  retries: 1
+  delay: 5
+  become: true
+
+- name: Ensure system is updated
+  apt:
+    update_cache: yes
+    upgrade: dist
+  become: true
+
+# - name: Install software packages
+#   apt:
+#     name: "{{ item }}"
+#     state: present
+#   loop: "{{ software_packages }}"
+#   become: true
+
+- include_tasks: tasks/locale.yml
+
+- include_tasks: tasks/apt.yml
+
+- include_tasks: tasks/php.yml
+  when: install_php
+
+- include_tasks: tasks/docker.yml
+  when: install_docker
+
+- include_tasks: tasks/laravel.yml
+  when: install_laravel
+
+- include_tasks: tasks/nginx.yml
+  when: install_nginx
+
+- include_tasks: tasks/certbot.yml
+  when: enable_certbot
+
+- include_tasks: tasks/mysql.yml
+  when: enable_mysql
+
+- include_tasks: tasks/users.yml
+
+- include_tasks: tasks/sshd.yml

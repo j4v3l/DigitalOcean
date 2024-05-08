@@ -1,0 +1,27 @@
+---
+- name: Add PHP 8.1 Repository and Install PHP 8.1
+  block:
+    - name: Add repository for PHP 8.1
+      apt_repository:
+        repo: ppa:ondrej/php
+        state: present
+      become: true
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+      become: true
+
+    - name: Install PHP 8.1
+      apt:
+        name:
+          - php8.1
+          - php8.1-cli
+          - php8.1-common
+          - php8.1-mbstring
+          - php8.1-xml
+          - php8.1-curl
+          - php8.1-mysql
+        state: present
+      become: true
+  when: install_php

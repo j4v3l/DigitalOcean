@@ -1,0 +1,55 @@
+---
+- name: Install MySQL
+  apt:
+    name: mysql-server
+    state: present
+  become: true
+  when: enable_mysql
+
+- name: Install necessary packages for mysqlclient
+  apt:
+    name:
+      - build-essential
+      - libmysqlclient-dev
+      - pkg-config
+    state: present
+  become: true
+  when: enable_mysql
+
+- name: Install mysqlclient
+  pip:
+    name: mysqlclient
+    state: present
+  become: true
+  when: enable_mysql
+
+- name: Secure MySQL Installation
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}" # or the current root password if already set
+    name: root
+    host: localhost
+    password: "{{ mysql_root_password }}"
+    check_implicit_admin: yes
+  become: true
+  when: enable_mysql and mysql_root_password is defined
+
+- name: Create MySQL Database
+  mysql_db:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ mysql_db }}"
+    state: present
+  become: true
+  when: enable_mysql
+
+- name: Create MySQL User
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ mysql_user }}"
+    password: "{{ mysql_password }}"
+    priv: "{{ mysql_db }}.*:ALL"
+    state: present
+  become: true
+  when: enable_mysql

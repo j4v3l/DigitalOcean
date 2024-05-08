@@ -1,0 +1,10 @@
+---
+- name: Ensure locale is generated
+  become: true
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+
+- name: Update locale
+  become: true
+  command: update-locale LANG=en_US.UTF-8

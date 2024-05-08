@@ -1,0 +1,24 @@
+---
+- name: Install Composer (for Laravel)
+  shell: |
+    curl -sS https://getcomposer.org/installer | php
+    mv composer.phar /usr/local/bin/composer
+  args:
+    creates: /usr/local/bin/composer
+  when: install_laravel
+  become: true
+
+- name: Install Laravel
+  shell: composer global require laravel/installer --no-interaction
+  environment:
+    PATH: "{{ ansible_env.PATH }}:/usr/local/bin:/root/.config/composer/vendor/bin"
+  when: install_laravel
+  become: true
+
+- name: Add Composer bin directory to PATH
+  lineinfile:
+    path: /root/.bashrc
+    line: "export PATH=$PATH:/root/.config/composer/vendor/bin"
+    create: yes
+  when: install_laravel
+  become: true

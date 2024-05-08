@@ -1,0 +1,29 @@
+---
+- name: Remove existing Nginx
+  apt:
+    name: nginx
+    state: absent
+  become: true
+  when: remove_nginx
+
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: latest
+  become: true
+  when: install_nginx
+
+- name: Start and enable Nginx
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes
+  become: true
+  when: install_nginx
+
+- name: Copy custom Nginx welcome page
+  template:
+    src: nginx_welcome_page.html.j2
+    dest: /var/www/html/index.html
+  become: true
+  when: install_nginx

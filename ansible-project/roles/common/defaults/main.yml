@@ -1,0 +1,7 @@
+---
+# Default software packages
+software_packages:
+  - "vim"
+  - "curl"
+  - "python3-pip"
+  # Add other default software packages here

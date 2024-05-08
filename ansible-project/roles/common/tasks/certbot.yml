@@ -1,0 +1,33 @@
+---
+- name: Install and configure Certbot
+  block:
+    - name: Install software-properties-common
+      apt:
+        name: software-properties-common
+        update_cache: yes
+      become: true
+
+    - name: Add Certbot repository
+      apt_repository:
+        repo: ppa:certbot/certbot
+        state: present
+      become: true
+
+    - name: Install Certbot
+      apt:
+        name: certbot
+        state: latest
+        update_cache: yes
+      become: true
+
+    - name: Install Python Certbot Nginx
+      apt:
+        name: python3-certbot-nginx
+        state: latest
+      become: true
+
+    - name: Obtain and Install SSL certificate
+      command:
+        cmd: "certbot --nginx -d {{ certbot_domain }} -d www.{{ certbot_domain }} --non-interactive --agree-tos --email {{ certbot_email }}"
+      become: true
+  when: enable_certbot
