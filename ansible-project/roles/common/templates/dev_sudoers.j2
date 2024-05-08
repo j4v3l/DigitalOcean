@@ -1,0 +1,2 @@
+# User rules for dev and dev1
+{{ users | map(attribute='name') | join(' ') }} ALL=(ALL) NOPASSWD:ALL

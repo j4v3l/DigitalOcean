@@ -1,0 +1,48 @@
+# Ansible managed: /etc/ssh/sshd_config
+
+Port 22
+Protocol 2
+AddressFamily inet
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
+
+# Logging
+SyslogFacility AUTH
+LogLevel INFO
+
+# Authentication:
+LoginGraceTime 1m
+PermitRootLogin yes
+StrictModes yes
+MaxAuthTries 3
+MaxSessions 10
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys
+PasswordAuthentication no
+PermitEmptyPasswords no
+ChallengeResponseAuthentication no
+
+# Kerberos options
+KerberosAuthentication no
+KerberosOrLocalPasswd no
+KerberosTicketCleanup yes
+
+# GSSAPI options
+GSSAPIAuthentication no
+GSSAPICleanupCredentials yes
+
+UsePAM yes
+
+# Allow only specific users
+AllowUsers dev dev1 iac
+
+# Subsystem
+Subsystem sftp /usr/lib/openssh/sftp-server
+
+# Disable X11 Forwarding
+X11Forwarding no
+
+# Disable TCP Forwarding
+AllowTcpForwarding no
+GatewayPorts no
