@@ -1,0 +1,5 @@
+[dev_servers]
+dev_server_01 ansible_host=134.122.14.230
+
+[dev_servers:vars]
+ansible_user=root
