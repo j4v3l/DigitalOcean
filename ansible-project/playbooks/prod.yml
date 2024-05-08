@@ -1,0 +1,6 @@
+---
+- name: Configure Prod Servers
+  hosts: prod-servers
+  become: true
+  roles:
+    - common
