@@ -1,0 +1,35 @@
+services:
+  iac:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: iac-container
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    environment:
+      DO_TOKEN: "your_digitalocean_token"
+      ENABLE_VPS_MODULE: "true"
+      DROPLET_NAME: "your_droplet_name"
+      DROPLET_SIZE: "your_droplet_size"
+      DROPLET_REGION: "your_droplet_region"
+      IMAGE_NAME: "your_image_name"
+      GRACEFUL_SHUTDOWN: "true"
+      MONITORING: "true"
+      TAGS: '["tag1","tag2"]'
+      ENABLE_SSH_MODULE: "true"
+      SSH_KEY_NAME: "your_ssh_key_name"
+      SSH_KEY_PATH: "your_ssh_key_path"
+      ENABLE_DNS_MODULE: "false"
+      DOMAIN_NAME: "your_domain_name"
+      ENABLE_SUBDOMAIN: "false"
+      SUBDOMAIN_NAME: "your_subdomain_name"
+      ENABLE_NETWORKING_MODULE: "true"
+      FIREWALL_NAME: "vps-firewall"
+      ENABLE_STORAGE: "true"
+      VOLUME_DESCRIPTION: "value-added storage"
+      VOLUME_NAME: "storage"
+      VOLUME_SIZE: "10"
+      ACTION: "init"      # Change to plan/apply/destroy
+      ENVIRONMENT: "dev"  # dev or prod
+    command: ["./setup.sh", "${ACTION}", "${ENVIRONMENT}"]

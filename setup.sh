@@ -22,42 +22,36 @@ INITIAL_DIR=$(pwd)
 # Change to the Terraform directory
 cd $TERRAFORM_DIR
 
-# Check if terraform.tfvars file exists
+# Check if terraform.tfvars file exists, if not, create it
 if [ ! -f terraform.tfvars ]; then
-  # Create terraform.tfvars file
   cat << EOF > terraform.tfvars
-do_token = "your_digitalocean_token"
+do_token = "${DO_TOKEN:-your_digitalocean_token}"
 
-# Variables for the VPS module
-enable_vps_module = true
-droplet_name = "your_droplet_name"
-size = "your_droplet_size"
-region = "your_droplet_region"
-image_name = "your_image_name"
-graceful_shutdown = true
-monitoring = true
-tags = ["tag1", "tag2"]
+enable_vps_module = ${ENABLE_VPS_MODULE:-true}
+droplet_name = "${DROPLET_NAME:-your_droplet_name}"
+size = "${DROPLET_SIZE:-your_droplet_size}"
+region = "${DROPLET_REGION:-your_droplet_region}"
+image_name = "${IMAGE_NAME:-your_image_name}"
+graceful_shutdown = ${GRACEFUL_SHUTDOWN:-true}
+monitoring = ${MONITORING:-true}
+tags = ${TAGS:-["tag1","tag2"]}
 
-# Variables for the SSH Key module
-enable_ssh_module = true
-ssh_key_name = "your_ssh_key_name"
-ssh_key_path = "your_ssh_key_path"
+enable_ssh_module = ${ENABLE_SSH_MODULE:-true}
+ssh_key_name = "${SSH_KEY_NAME:-your_ssh_key_name}"
+ssh_key_path = "${SSH_KEY_PATH:-your_ssh_key_path}"
 
-# Variables for the DNS module
-enable_dns_module = false
-domain_name = "your_domain_name"
-enable_subdomain = false
-subdomain_name = "your_subdomain_name"
+enable_dns_module = ${ENABLE_DNS_MODULE:-false}
+domain_name = "${DOMAIN_NAME:-your_domain_name}"
+enable_subdomain = ${ENABLE_SUBDOMAIN:-false}
+subdomain_name = "${SUBDOMAIN_NAME:-your_subdomain_name}"
 
-# Variables for the Networking module
-enable_networking_module = true
-firewall_name = "vps-firewall"
+enable_networking_module = ${ENABLE_NETWORKING_MODULE:-true}
+firewall_name = "${FIREWALL_NAME:-vps-firewall}"
 
-# Variables for the Storage module
-enable_storage = true
-volume_description = "value-added storage"
-volume_name = "storage"
-volume_size = 10
+enable_storage = ${ENABLE_STORAGE:-true}
+volume_description = "${VOLUME_DESCRIPTION:-value-added storage}"
+volume_name = "${VOLUME_NAME:-storage}"
+volume_size = ${VOLUME_SIZE:-10}
 EOF
 fi
 
