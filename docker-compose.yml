@@ -6,6 +6,7 @@ services:
     container_name: iac-container
     volumes:
       - .:/workspace
+      - /path/to/your/ssh/keys:/root/.ssh  # Mount the SSH keys directory
     working_dir: /workspace
     environment:
       DO_TOKEN: "your_digitalocean_token"
@@ -19,7 +20,7 @@ services:
       TAGS: '["tag1","tag2"]'
       ENABLE_SSH_MODULE: "true"
       SSH_KEY_NAME: "your_ssh_key_name"
-      SSH_KEY_PATH: "your_ssh_key_path"
+      SSH_KEY_PATH: "/root/.ssh/your_ssh_key_path"  # Set the SSH key path
       ENABLE_DNS_MODULE: "false"
       DOMAIN_NAME: "your_domain_name"
       ENABLE_SUBDOMAIN: "false"
@@ -32,4 +33,4 @@ services:
       VOLUME_SIZE: "10"
       ACTION: "init"      # Change to plan/apply/destroy
       ENVIRONMENT: "dev"  # dev or prod
-    command: ["./setup.sh", "${ACTION}", "${ENVIRONMENT}"]
+    command: sh -c './setup.sh ${ACTION} ${ENVIRONMENT}'
