@@ -13,3 +13,4 @@
 
 # Ignore SSH keys
 **/.ssh/*
+terraform-project/environments/dev/.terraform.lock.hcl
